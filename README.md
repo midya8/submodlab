@@ -4,6 +4,18 @@ An exact finite subset-selection inspector: every greedy marginal, every optimum
 
 [Live inspector](https://midya8.github.io/submodlab/) · [Method and sources](METHOD.md)
 
+## Exact product distributions and cardinality rounding
+
+[New rounding inspector](https://midya8.github.io/submodlab/rounding.html) · [Rounding method](ROUNDING.md)
+
+Independent inclusion probabilities do not enforce a hard budget. The retained [1/2,1/2] duplicate-coverage control has expected count 1, but exceeds k=1 with probability 1/4. Exact deterministic pair rounding raises expected value 3/4 to a fixed-size singleton of value 1. Full product masses, excluded-context gradient/Hessian terms and both endpoints of every swap are retained. Submodularity and probability sum exactly k are required; signed/nonmonotone submodular objectives still work. Synergy and wrong-sum controls refuse rounding. This does not optimize the supplied fractional point or preserve its marginals.
+
+```bash
+python -m submodlab.rounding_cli --spec examples/rounding.json --json rounding.json
+```
+
+33 Python tests (the original 24 plus nine new tests) pass on 3.10-3.13. The 21 new native/BigInt reports agree on 10,682 exact leaves; actual Chrome checks 302 product rows, 1,769 complete selected records, 705 gradient contexts, 727 pair contexts, 35 steps and 85 count bars, plus summaries, export and invalid/stale states. Original 24 reports and discrete behavior remain unchanged. Installed reproduction covers all 45 reports, both CLIs and six module origins.
+
 ## A guarantee is not an optimum
 
 The default six-row coverage control has three selectable items. Greedy chooses item 0, which covers four rows; either next item adds one, for value **5**. Items 1+2 together cover all six rows, so the exact optimum is **6**. The greedy ratio is **5/6**, above the finite-k worst-case factor **3/4**, but not optimal.
