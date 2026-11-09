@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "submodlab"
+version = "0.1.0"
+description = "Exact finite submodular selection and greedy certificates"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Midya Rahmani"}]
+[project.scripts]
+submodlab = "submodlab.cli:main"
+[tool.setuptools.packages.find]
+include = ["submodlab*"]
