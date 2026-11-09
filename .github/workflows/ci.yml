@@ -27,5 +27,6 @@ jobs:
         with:
           node-version: '22'
       - run: python tools/build_audits.py && git diff --exit-code -- docs/audits.json examples/coverage.json
+      - run: python tools/build_rounding.py && git diff --exit-code -- docs/rounding-audits.json
       - run: npm test
       - run: bash tools/wheel_smoke.sh
