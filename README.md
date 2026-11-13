@@ -1,12 +1,21 @@
 # SubmodLab
 
-An exact finite subset-selection inspector: every greedy marginal, every optimum tie and every assumption behind the bound. Dependency-free Python and independent BigInt JavaScript. No learned model or API call.
+SubmodLab compares greedy subset selection with exhaustive optima on small supplied objectives. Inspect every marginal gain, optimum tie and assumption needed for the bound. Python has no runtime dependencies; the browser uses independent BigInt JavaScript. No learned model or API call.
 
 [Live inspector](https://midya8.github.io/submodlab/) · [Method and sources](METHOD.md)
 
-## Exact product distributions and cardinality rounding
+## Choose a calculation
 
-[New rounding inspector](https://midya8.github.io/submodlab/rounding.html) · [Rounding method](ROUNDING.md)
+The discrete inspector selects exactly k items with greedy additions and compares
+its value with every feasible subset of at most k items. It withholds theorem
+fields when the required assumptions fail. The rounding inspector starts from
+supplied independent inclusion probabilities, shows the full product distribution
+and rounds an eligible fractional point to fixed cardinality. It does not solve
+for that fractional point or preserve its marginals.
+
+## Product distributions and cardinality rounding
+
+[Rounding inspector](https://midya8.github.io/submodlab/rounding.html) · [Rounding method](ROUNDING.md)
 
 Independent inclusion probabilities do not enforce a hard budget. The retained [1/2,1/2] duplicate-coverage control has expected count 1, but exceeds k=1 with probability 1/4. Exact deterministic pair rounding raises expected value 3/4 to a fixed-size singleton of value 1. Full product masses, excluded-context gradient/Hessian terms and both endpoints of every swap are retained. Submodularity and probability sum exactly k are required; signed/nonmonotone submodular objectives still work. Synergy and wrong-sum controls refuse rounding. This does not optimize the supplied fractional point or preserve its marginals.
 
@@ -16,7 +25,7 @@ python -m submodlab.rounding_cli --spec examples/rounding.json --json rounding.j
 
 33 Python tests (the original 24 plus nine new tests) pass on 3.10-3.13. The 21 new native/BigInt reports agree on 10,682 exact leaves; actual Chrome checks 302 product rows, 1,769 complete selected records, 705 gradient contexts, 727 pair contexts, 35 steps and 85 count bars, plus summaries, export and invalid/stale states. Original 24 reports and discrete behavior remain unchanged. Installed reproduction covers all 45 reports, both CLIs and six module origins.
 
-## A guarantee is not an optimum
+## Greedy can be suboptimal
 
 The default six-row coverage control has three selectable items. Greedy chooses item 0, which covers four rows; either next item adds one, for value **5**. Items 1+2 together cover all six rows, so the exact optimum is **6**. The greedy ratio is **5/6**, above the finite-k worst-case factor **3/4**, but not optimal.
 
@@ -41,7 +50,7 @@ assert r["singleton_value"] == "5"
 - `table`: data supplies every exact f(S) in integer bitmask order, including f(empty). Arbitrary tables are accepted for diagnostic assumption failures, never silently treated as submodular.
 - `k`: integer-valued count 0..n. Uniform cardinality only, not money, costs, knapsack or matroid constraints. Greedy makes exactly k additions; ties go to the lowest index. All maximizers at visited prefixes are retained, not all possible tie paths.
 
-## Complete witnesses
+## Report contents
 
 Every subset value, feasibility flag and optimum tie; facility row maxima; all monotonicity edges and local diminishing-return inequalities; complete candidate gains and greedy history; singleton top-k baseline; exact at-most-k optimum; finite-k factor; proof-derived prefix upper bounds and greedy/upper-bound certificates. Null ratios mean zero denominators. Null theorem fields mean failed assumptions or k=0, never a manufactured perfect result.
 
@@ -56,7 +65,7 @@ npm test
 bash tools/wheel_smoke.sh
 ```
 
-24 Python tests pass on 3.10-3.13, including 120 independently enumerated facility controls, 100 arbitrary-table full lattice comparisons, 40 scaling controls, 30 facility/table equivalence controls and 60 all-subset upper-bound controls. 24 complete native/BigInt reports agree on 16,426 exact leaves. Actual Chrome verifies 360 subset rows/bars and 2,056 complete records, including 33 greedy steps, 57 prefixes, 812 monotonicity edges and 794 diminishing-return witnesses, plus every candidate table, summary, certificate, export, invalid/stale states and 320/390/1280 containment. Isolated installed-wheel reproduction checks all reports, console CLI and four installed module origins outside checkout.
+The original discrete release checked 24 Python tests on 3.10-3.13, including 120 independently enumerated facility controls, 100 arbitrary-table full lattice comparisons, 40 scaling controls, 30 facility/table equivalence controls and 60 all-subset upper-bound controls. 24 complete native/BigInt reports agree on 16,426 exact leaves. Actual Chrome verifies 360 subset rows/bars and 2,056 complete records, including 33 greedy steps, 57 prefixes, 812 monotonicity edges and 794 diminishing-return witnesses, plus every candidate table, summary, certificate, export, invalid/stale states and 320/390/1280 containment. Isolated installed-wheel reproduction checks all reports, console CLI and four installed module origins outside checkout.
 
 ## Limits
 
